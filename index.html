@@ -80,4 +80,25 @@
       const riskAmount = parseFloat(document.getElementById('riskAmount').value);
       const entryPrice = parseFloat(document.getElementById('entryPrice').value);
       const lossPercent = parseFloat(document.getElementById('lossPercent').value);
-      const
+      const resultBox = document.getElementById('result');
+
+      if (isNaN(riskAmount) || isNaN(entryPrice) || isNaN(lossPercent)) {
+        resultBox.innerHTML = "⚠️ الرجاء إدخال جميع القيم بشكل صحيح.";
+        return;
+      }
+
+      const stopLossPrice = entryPrice * (1 - (lossPercent / 100));
+      const lossPerShare = entryPrice - stopLossPrice;
+      const numberOfShares = Math.floor(riskAmount / lossPerShare);
+      const totalLoss = numberOfShares * lossPerShare;
+
+      resultBox.innerHTML = `
+        🛑 سعر وقف الخسارة: <span style="color:red;">${stopLossPrice.toFixed(2)} ريال</span><br/>
+        🔢 عدد الأسهم الممكن شراؤها: <span style="color:green;">${numberOfShares}</span> سهم<br/>
+        💸 الخسارة المتوقعة: <span style="color:red;">${totalLoss.toFixed(2)} ريال</span><br/>
+        📊 نسبة الخسارة: ${lossPercent.toFixed(2)}٪
+      `;
+    }
+  </script>
+</body>
+</html>
