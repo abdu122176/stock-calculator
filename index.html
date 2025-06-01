@@ -1,99 +1,64 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <title>حاسبة عدد الأسهم (ريال سعودي)</title>
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f4f4f4;
-            padding: 40px;
-            direction: rtl;
-        }
-        .container {
-            max-width: 500px;
-            margin: auto;
-            background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            padding: 30px;
-        }
-        h2 {
-            text-align: center;
-            color: #333;
-        }
-        label {
-            display: block;
-            margin-top: 15px;
-            font-weight: bold;
-        }
-        input[type="number"] {
-            width: 100%;
-            padding: 10px;
-            margin-top: 5px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-        button {
-            margin-top: 20px;
-            width: 100%;
-            padding: 12px;
-            background-color: #007bff;
-            color: white;
-            font-size: 16px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #0056b3;
-        }
-        #result {
-            margin-top: 20px;
-            text-align: center;
-            font-size: 18px;
-            font-weight: bold;
-            color: #333;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <title>حاسبة عدد الأسهم (بالريال السعودي)</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f9f9f9;
+      padding: 40px;
+      direction: rtl;
+    }
+    .container {
+      max-width: 500px;
+      margin: auto;
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      padding: 30px;
+    }
+    h2 {
+      text-align: center;
+      color: #333;
+    }
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+    input[type="number"] {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    button {
+      margin-top: 20px;
+      width: 100%;
+      padding: 12px;
+      background-color: #007bff;
+      color: white;
+      font-size: 16px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    #result {
+      margin-top: 20px;
+      text-align: center;
+      font-size: 18px;
+      font-weight: bold;
+      color: #333;
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <h2>📈 حاسبة عدد الأسهم (بالريال السعودي)</h2>
-        <label for="riskAmount">💰 المبلغ المستعد للمخاطرة (ريال سعودي):</label>
-        <input type="number" id="riskAmount" placeholder="مثال: 1000">
-
-        <label for="entryPrice">📉 سعر الدخول (ريال):</label>
-        <input type="number" id="entryPrice" placeholder="مثال: 50">
-
-        <label for="stopLossPrice">🛑 سعر وقف الخسارة (ريال):</label>
-        <input type="number" id="stopLossPrice" placeholder="مثال: 48">
-
-        <button onclick="calculateShares()">احسب عدد الأسهم</button>
-
-        <div id="result"></div>
-    </div>
-
-    <script>
-        function calculateShares() {
-            const risk = parseFloat(document.getElementById('riskAmount').value);
-            const entry = parseFloat(document.getElementById('entryPrice').value);
-            const stop = parseFloat(document.getElementById('stopLossPrice').value);
-            const resultBox = document.getElementById('result');
-
-            if (isNaN(risk) || isNaN(entry) || isNaN(stop)) {
-                resultBox.innerHTML = "⚠️ الرجاء إدخال جميع القيم.";
-                return;
-            }
-
-            if (entry <= stop) {
-                resultBox.innerHTML = "⚠️ سعر الدخول يجب أن يكون أعلى من سعر وقف الخسارة.";
-                return;
-            }
-
-            const shares = Math.floor(risk / (entry - stop));
-            resultBox.innerHTML = "🔢 عدد الأسهم الممكن شراؤها: <span style='color: green;'>" + shares + "</span> سهم";
-        }
-    </script>
-</body>
-</html>
+  <div class="container">
+    <h2>📈 حاسبة عدد الأسهم (بالريال السعودي)</h2>
+    <label for="riskAmount">💰 المبلغ المستعد للمخاطرة (ريال سعودي):</label>
+    <inpu
