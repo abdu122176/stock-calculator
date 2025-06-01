@@ -100,10 +100,10 @@
       const totalLoss = numberOfShares * lossPerShare;
 
       result.innerHTML = `
-        📌 خسارة السهم الواحد: <strong>${lossPerShare.toFixed(2)} ريال</strong><br/>
-        🔢 عدد الأسهم الممكن شراؤها: <strong>${numberOfShares}</strong><br/>
-        💸 إجمالي الخسارة: <strong>${totalLoss.toFixed(2)} ريال</strong><br/>
-        ✅ لا تتجاوز نسبة ${lossPercent}% من ${riskAmount} ريال
+        💥 <b>أقصى خسارة مسموحة:</b> ${maxAllowedLoss.toFixed(2)} ريال<br/>
+        🔢 <b>عدد الأسهم الممكن شراؤها:</b> <strong>${numberOfShares}</strong><br/>
+        💸 <b>إجمالي الخسارة الفعلية:</b> ${totalLoss.toFixed(2)} ريال<br/>
+        📉 <b>سعر وقف الخسارة:</b> ${stopLoss.toFixed(2)} ريال
       `;
     }
   </script>
