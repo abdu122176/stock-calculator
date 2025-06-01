@@ -2,20 +2,20 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <title>حاسبة عدد الأسهم - نسبة الخسارة</title>
+  <title>حاسبة عدد الأسهم حسب نسبة الخسارة</title>
   <style>
     body {
       font-family: 'Arial', sans-serif;
-      background-color: #f4f4f4;
+      background-color: #f0f0f0;
       padding: 40px;
       direction: rtl;
     }
     .container {
       max-width: 500px;
       margin: auto;
-      background-color: white;
+      background: #fff;
       border-radius: 10px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
       padding: 30px;
     }
     h2 {
@@ -23,54 +23,55 @@
       color: #333;
     }
     label {
-      display: block;
       margin-top: 15px;
+      display: block;
       font-weight: bold;
     }
     input[type="number"] {
       width: 100%;
       padding: 10px;
       margin-top: 5px;
-      border: 1px solid #ccc;
       border-radius: 5px;
+      border: 1px solid #ccc;
     }
     button {
       margin-top: 20px;
       width: 100%;
       padding: 12px;
-      background-color: #007bff;
+      background: #28a745;
       color: white;
-      font-size: 16px;
       border: none;
+      font-size: 16px;
       border-radius: 5px;
       cursor: pointer;
     }
     button:hover {
-      background-color: #0056b3;
+      background: #218838;
     }
     #result {
       margin-top: 20px;
-      text-align: center;
       font-size: 18px;
-      font-weight: bold;
-      color: #333;
+      text-align: center;
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <h2>📈 حاسبة عدد الأسهم - مع نسبة الخسارة</h2>
+    <h2>📉 حاسبة الأسهم - مع نسبة الخسارة</h2>
 
-    <label for="riskAmount">💰 المبلغ المستعد للمخاطرة (ريال سعودي):</label>
+    <label for="riskAmount">💰 المبلغ المستعد للمخاطرة (ريال):</label>
     <input type="number" id="riskAmount" placeholder="مثال: 1000" />
-
-    <label for="entryPrice">📉 سعر الدخول (ريال):</label>
-    <input type="number" id="entryPrice" placeholder="مثال: 65.01" />
 
     <label for="lossPercent">📊 نسبة الخسارة المسموحة (%):</label>
     <input type="number" id="lossPercent" placeholder="مثال: 5" />
 
-    <button onclick="calculateShares()">احسب عدد الأسهم</button>
+    <label for="entryPrice">📈 سعر الدخول (ريال):</label>
+    <input type="number" id="entryPrice" placeholder="مثال: 65.01" />
+
+    <label for="stopLoss">🛑 سعر وقف الخسارة (ريال):</label>
+    <input type="number" id="stopLoss" placeholder="مثال: 61.60" />
+
+    <button onclick="calculateShares()">احسب</button>
 
     <div id="result"></div>
   </div>
@@ -78,25 +79,31 @@
   <script>
     function calculateShares() {
       const riskAmount = parseFloat(document.getElementById('riskAmount').value);
-      const entryPrice = parseFloat(document.getElementById('entryPrice').value);
       const lossPercent = parseFloat(document.getElementById('lossPercent').value);
-      const resultBox = document.getElementById('result');
+      const entryPrice = parseFloat(document.getElementById('entryPrice').value);
+      const stopLoss = parseFloat(document.getElementById('stopLoss').value);
+      const result = document.getElementById('result');
 
-      if (isNaN(riskAmount) || isNaN(entryPrice) || isNaN(lossPercent)) {
-        resultBox.innerHTML = "⚠️ الرجاء إدخال جميع القيم بشكل صحيح.";
+      if (isNaN(riskAmount) || isNaN(lossPercent) || isNaN(entryPrice) || isNaN(stopLoss)) {
+        result.innerHTML = "⚠️ الرجاء إدخال كل القيم بشكل صحيح.";
         return;
       }
 
-      const stopLossPrice = entryPrice * (1 - (lossPercent / 100));
-      const lossPerShare = entryPrice - stopLossPrice;
-      const numberOfShares = Math.floor(riskAmount / lossPerShare);
+      if (stopLoss >= entryPrice) {
+        result.innerHTML = "⚠️ يجب أن يكون وقف الخسارة أقل من سعر الدخول.";
+        return;
+      }
+
+      const lossPerShare = entryPrice - stopLoss;
+      const maxAllowedLoss = riskAmount * (lossPercent / 100);
+      const numberOfShares = Math.floor(maxAllowedLoss / lossPerShare);
       const totalLoss = numberOfShares * lossPerShare;
 
-      resultBox.innerHTML = `
-        🛑 سعر وقف الخسارة: <span style="color:red;">${stopLossPrice.toFixed(2)} ريال</span><br/>
-        🔢 عدد الأسهم الممكن شراؤها: <span style="color:green;">${numberOfShares}</span> سهم<br/>
-        💸 الخسارة المتوقعة: <span style="color:red;">${totalLoss.toFixed(2)} ريال</span><br/>
-        📊 نسبة الخسارة: ${lossPercent.toFixed(2)}٪
+      result.innerHTML = `
+        📌 خسارة السهم الواحد: <strong>${lossPerShare.toFixed(2)} ريال</strong><br/>
+        🔢 عدد الأسهم الممكن شراؤها: <strong>${numberOfShares}</strong><br/>
+        💸 إجمالي الخسارة: <strong>${totalLoss.toFixed(2)} ريال</strong><br/>
+        ✅ لا تتجاوز نسبة ${lossPercent}% من ${riskAmount} ريال
       `;
     }
   </script>
