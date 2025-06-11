@@ -1,111 +1,348 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <title>حاسبة عدد الأسهم حسب نسبة الخسارة</title>
-  <style>
-    body {
-      font-family: 'Arial', sans-serif;
-      background-color: #f0f0f0;
-      padding: 40px;
-      direction: rtl;
-    }
-    .container {
-      max-width: 500px;
-      margin: auto;
-      background: #fff;
-      border-radius: 10px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-      padding: 30px;
-    }
-    h2 {
-      text-align: center;
-      color: #333;
-    }
-    label {
-      margin-top: 15px;
-      display: block;
-      font-weight: bold;
-    }
-    input[type="number"] {
-      width: 100%;
-      padding: 10px;
-      margin-top: 5px;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-    }
-    button {
-      margin-top: 20px;
-      width: 100%;
-      padding: 12px;
-      background: #28a745;
-      color: white;
-      border: none;
-      font-size: 16px;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-    button:hover {
-      background: #218838;
-    }
-    #result {
-      margin-top: 20px;
-      font-size: 18px;
-      text-align: center;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>آلة حاسبة للتداول</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a2a6c, #2c3e50);
+            color: #333;
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 900px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(to right, #0d47a1, #1976d2);
+            color: white;
+            padding: 25px;
+            text-align: center;
+            position: relative;
+        }
+        
+        header h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+        }
+        
+        header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .calculator-container {
+            display: flex;
+            flex-wrap: wrap;
+            padding: 25px;
+        }
+        
+        .input-section {
+            flex: 1;
+            min-width: 300px;
+            padding: 20px;
+            border-right: 1px solid #eee;
+        }
+        
+        .results-section {
+            flex: 1;
+            min-width: 300px;
+            padding: 20px;
+            background: #f9f9f9;
+        }
+        
+        .section-title {
+            color: #1976d2;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #1976d2;
+            font-size: 1.5rem;
+        }
+        
+        .input-group {
+            margin-bottom: 25px;
+        }
+        
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #444;
+        }
+        
+        .input-with-icon {
+            position: relative;
+        }
+        
+        .input-with-icon i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #1976d2;
+        }
+        
+        .input-with-icon input {
+            width: 100%;
+            padding: 14px 14px 14px 45px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+        }
+        
+        .input-with-icon input:focus {
+            border-color: #1976d2;
+            box-shadow: 0 0 8px rgba(25, 118, 210, 0.3);
+            outline: none;
+        }
+        
+        button {
+            background: linear-gradient(to right, #0d47a1, #1976d2);
+            color: white;
+            border: none;
+            padding: 14px 25px;
+            font-size: 1.1rem;
+            border-radius: 10px;
+            cursor: pointer;
+            width: 100%;
+            font-weight: 600;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+        
+        button:hover {
+            background: linear-gradient(to right, #08306b, #0d47a1);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(13, 71, 161, 0.3);
+        }
+        
+        .result-box {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            border-left: 5px solid #1976d2;
+        }
+        
+        .result-title {
+            font-weight: 600;
+            color: #1976d2;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+        
+        .result-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #0d47a1;
+        }
+        
+        .result-details {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px dashed #ddd;
+            color: #555;
+            font-size: 0.95rem;
+        }
+        
+        .explanation {
+            background: #e3f2fd;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        
+        .explanation h3 {
+            color: #0d47a1;
+            margin-bottom: 15px;
+        }
+        
+        .explanation ul {
+            padding-left: 20px;
+        }
+        
+        .explanation li {
+            margin-bottom: 10px;
+            line-height: 1.5;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: #f1f1f1;
+            color: #555;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .input-section, .results-section {
+                border-right: none;
+                border-bottom: 1px solid #eee;
+            }
+            
+            .calculator-container {
+                padding: 15px;
+            }
+            
+            header h1 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <h2>📉 حاسبة الأسهم - مع نسبة الخسارة</h2>
-
-    <label for="riskAmount">💰 المبلغ المستعد للمخاطرة (ريال):</label>
-    <input type="number" id="riskAmount" placeholder="مثال: 1000" />
-
-    <label for="lossPercent">📊 نسبة الخسارة المسموحة (%):</label>
-    <input type="number" id="lossPercent" placeholder="مثال: 5" />
-
-    <label for="entryPrice">📈 سعر الدخول (ريال):</label>
-    <input type="number" id="entryPrice" placeholder="مثال: 65.01" />
-
-    <label for="stopLoss">🛑 سعر وقف الخسارة (ريال):</label>
-    <input type="number" id="stopLoss" placeholder="مثال: 61.60" />
-
-    <button onclick="calculateShares()">احسب</button>
-
-    <div id="result"></div>
-  </div>
-
-  <script>
-    function calculateShares() {
-      const riskAmount = parseFloat(document.getElementById('riskAmount').value);
-      const lossPercent = parseFloat(document.getElementById('lossPercent').value);
-      const entryPrice = parseFloat(document.getElementById('entryPrice').value);
-      const stopLoss = parseFloat(document.getElementById('stopLoss').value);
-      const result = document.getElementById('result');
-
-      if (isNaN(riskAmount) || isNaN(lossPercent) || isNaN(entryPrice) || isNaN(stopLoss)) {
-        result.innerHTML = "⚠️ الرجاء إدخال كل القيم بشكل صحيح.";
-        return;
-      }
-
-      if (stopLoss >= entryPrice) {
-        result.innerHTML = "⚠️ يجب أن يكون وقف الخسارة أقل من سعر الدخول.";
-        return;
-      }
-
-      const lossPerShare = entryPrice - stopLoss;
-      const maxAllowedLoss = riskAmount * (lossPercent / 100);
-      const numberOfShares = Math.floor(maxAllowedLoss / lossPerShare);
-      const totalLoss = numberOfShares * lossPerShare;
-
-      result.innerHTML = `
-        💥 <b>أقصى خسارة مسموحة:</b> ${maxAllowedLoss.toFixed(2)} ريال<br/>
-        🔢 <b>عدد الأسهم الممكن شراؤها:</b> <strong>${numberOfShares}</strong><br/>
-        💸 <b>إجمالي الخسارة الفعلية:</b> ${totalLoss.toFixed(2)} ريال<br/>
-        📉 <b>سعر وقف الخسارة:</b> ${stopLoss.toFixed(2)} ريال
-      `;
-    }
-  </script>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-calculator"></i> آلة حاسبة للتداول</h1>
+            <p>احسب كمية الأسهم المسموح بشرائها وسعر وقف الخسارة بناءً على المدخلات</p>
+        </header>
+        
+        <div class="calculator-container">
+            <div class="input-section">
+                <h2 class="section-title"><i class="fas fa-edit"></i> المدخلات</h2>
+                
+                <div class="input-group">
+                    <label for="stockPrice">سعر السهم (ريال)</label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-money-bill-wave"></i>
+                        <input type="number" id="stockPrice" placeholder="أدخل سعر السهم" value="21.86">
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <label for="buyingPower">القوة الشرائية (ريال)</label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-wallet"></i>
+                        <input type="number" id="buyingPower" placeholder="أدخل القوة الشرائية" value="1000">
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <label for="commission">العمولة (ريال) - اختياري</label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-percentage"></i>
+                        <input type="number" id="commission" placeholder="أدخل قيمة العمولة">
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <label for="stopLossPercent">نسبة وقف الخسارة (%)</label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <input type="number" id="stopLossPercent" placeholder="أدخل النسبة المئوية" value="5">
+                    </div>
+                </div>
+                
+                <button id="calculateBtn">
+                    <i class="fas fa-calculator"></i> احسب النتائج
+                </button>
+            </div>
+            
+            <div class="results-section">
+                <h2 class="section-title"><i class="fas fa-chart-line"></i> النتائج</h2>
+                
+                <div class="result-box">
+                    <div class="result-title">الكمية المسموح بشرائها</div>
+                    <div class="result-value" id="sharesResult">45 سهم</div>
+                    <div class="result-details" id="sharesDetails">
+                        القوة الشرائية: 1000 ريال<br>
+                        سعر السهم: 21.86 ريال<br>
+                        التكلفة الإجمالية: 983.70 ريال
+                    </div>
+                </div>
+                
+                <div class="result-box">
+                    <div class="result-title">سعر وقف الخسارة</div>
+                    <div class="result-value" id="stopLossResult">20.77 ريال</div>
+                    <div class="result-details" id="stopLossDetails">
+                        سعر الشراء: 21.86 ريال<br>
+                        نسبة وقف الخسارة: 5%<br>
+                        الخسارة لكل سهم: 1.09 ريال
+                    </div>
+                </div>
+                
+                <div class="explanation">
+                    <h3><i class="fas fa-lightbulb"></i> كيفية الحساب</h3>
+                    <ul>
+                        <li><strong>كمية الأسهم:</strong> (القوة الشرائية - العمولة) ÷ سعر السهم، مقربة لأسفل</li>
+                        <li><strong>سعر وقف الخسارة:</strong> سعر الشراء × (1 - نسبة وقف الخسارة/100)</li>
+                        <li>الأسهم تُحسب كأعداد صحيحة (لا كسور) في الأسواق التقليدية</li>
+                        <li>سعر وقف الخسارة يُقرب لأقرب منزلتين عشريتين</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>تم التصميم بواسطة DeepSeek-R1 | هذه الآلة الحاسبة للأغراض التعليمية فقط وليست نصيحة استثمارية</p>
+        </footer>
+    </div>
+    
+    <script>
+        document.getElementById('calculateBtn').addEventListener('click', function() {
+            // الحصول على المدخلات
+            const stockPrice = parseFloat(document.getElementById('stockPrice').value) || 0;
+            const buyingPower = parseFloat(document.getElementById('buyingPower').value) || 0;
+            const commission = parseFloat(document.getElementById('commission').value) || 0;
+            const stopLossPercent = parseFloat(document.getElementById('stopLossPercent').value) || 0;
+            
+            // حساب كمية الأسهم
+            const availableFunds = buyingPower - commission;
+            const shares = Math.floor(availableFunds / stockPrice);
+            const totalCost = shares * stockPrice;
+            const remainingFunds = availableFunds - totalCost;
+            
+            // حساب وقف الخسارة
+            const stopLossPrice = stockPrice * (1 - stopLossPercent/100);
+            const roundedStopLoss = Math.round(stopLossPrice * 100) / 100;
+            const lossPerShare = stockPrice - roundedStopLoss;
+            
+            // عرض النتائج
+            document.getElementById('sharesResult').textContent = shares + ' سهم';
+            document.getElementById('sharesDetails').innerHTML = `
+                القوة الشرائية: ${buyingPower.toFixed(2)} ريال<br>
+                ${commission > 0 ? 'العمولة: ' + commission.toFixed(2) + ' ريال<br>' : ''}
+                سعر السهم: ${stockPrice.toFixed(2)} ريال<br>
+                التكلفة الإجمالية: ${totalCost.toFixed(2)} ريال
+                ${remainingFunds > 0 ? '<br>الأموال المتبقية: ' + remainingFunds.toFixed(2) + ' ريال' : ''}
+            `;
+            
+            document.getElementById('stopLossResult').textContent = roundedStopLoss.toFixed(2) + ' ريال';
+            document.getElementById('stopLossDetails').innerHTML = `
+                سعر الشراء: ${stockPrice.toFixed(2)} ريال<br>
+                نسبة وقف الخسارة: ${stopLossPercent}%<br>
+                الخسارة لكل سهم: ${lossPerShare.toFixed(2)} ريال<br>
+                الخسارة الإجمالية: ${(lossPerShare * shares).toFixed(2)} ريال
+            `;
+        });
+        
+        // تشغيل الحساب الأولي عند التحميل
+        window.addEventListener('load', function() {
+            document.getElementById('calculateBtn').click();
+        });
+    </script>
 </body>
 </html>
